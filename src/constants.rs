@@ -1,6 +1,8 @@
 use once_cell::sync::Lazy;
 use std::collections::HashMap;
 
+pub const DATETIME_FORMAT_STR: &str = "%Y-%m-%d %H:%M:%S";
+
 pub const NPROCS: i8 = 6;
 
 pub const CFLAGS: &str = "-fprofile-instr-generate -fcoverage-mapping";

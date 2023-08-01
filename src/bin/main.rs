@@ -30,7 +30,7 @@ fn setup() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-/// A cli for comparing fuzzers.
+/// A Cli for comparing fuzzers.
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
