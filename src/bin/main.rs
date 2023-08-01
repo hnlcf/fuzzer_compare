@@ -4,6 +4,8 @@ use fuzzer_compare::{
     utils,
 };
 
+use clap::Parser;
+
 fn pre_setup() -> Result<(), Box<dyn std::error::Error>> {
     utils::create_dir(TMP_DIR.as_str())?;
     utils::create_dir(DB_DIR.as_str())?;
@@ -16,7 +18,7 @@ fn pre_setup() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn setup() -> Result<(), Box<dyn std::error::Error>> {
     pre_setup()?;
 
     SquirrelBuilder::setup()?;
@@ -24,6 +26,32 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     BoostBuilder::setup()?;
     MysqlBuilder::setup()?;
     MariadbBuilder::setup()?;
+
+    Ok(())
+}
+
+/// A cli for comparing fuzzers.
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// Setup all fuzzers and databases.
+    #[arg(short, long, default_value_t = false)]
+    setup: bool,
+
+    /// Launch fuzzers in parallel.
+    #[arg(short, long, default_value_t = false)]
+    run: bool,
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args = Args::parse();
+    if args.setup {
+        setup()?;
+    } else if args.run {
+        println!("Running");
+    } else {
+        println!("Uknown arguments");
+    }
 
     Ok(())
 }
