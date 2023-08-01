@@ -1,4 +1,5 @@
-use std::{collections::HashMap, sync::LazyLock};
+use once_cell::sync::Lazy;
+use std::collections::HashMap;
 
 pub const NPROCS: i8 = 6;
 
@@ -16,7 +17,7 @@ pub const MYSQL_UNIX_ADDR: &str = "/tmp/another_mysql.sock";
 pub const MARIADB_VERSION: &str = "10.5";
 
 /// Current workspace
-pub static ROOT: LazyLock<String> = LazyLock::new(|| {
+pub static ROOT: Lazy<String> = Lazy::new(|| {
     std::env::current_dir()
         .expect("Cannot get current workspace")
         .display()
@@ -24,31 +25,29 @@ pub static ROOT: LazyLock<String> = LazyLock::new(|| {
 });
 
 /// All temporary files directory
-pub static TMP_DIR: LazyLock<String> = LazyLock::new(|| format!("{}/tmp", ROOT.as_str()));
+pub static TMP_DIR: Lazy<String> = Lazy::new(|| format!("{}/tmp", ROOT.as_str()));
 
 /// Database source code directory
-pub static DB_DIR: LazyLock<String> = LazyLock::new(|| format!("{}/db", TMP_DIR.as_str()));
+pub static DB_DIR: Lazy<String> = Lazy::new(|| format!("{}/db", TMP_DIR.as_str()));
 
 /// Fuzzers source code directory
-pub static FUZZERS_DIR: LazyLock<String> =
-    LazyLock::new(|| format!("{}/fuzzers", TMP_DIR.as_str()));
+pub static FUZZERS_DIR: Lazy<String> = Lazy::new(|| format!("{}/fuzzers", TMP_DIR.as_str()));
 
 /// Binary installed directory
-pub static INSTALL_DIR: LazyLock<String> =
-    LazyLock::new(|| format!("{}/install", TMP_DIR.as_str()));
+pub static INSTALL_DIR: Lazy<String> = Lazy::new(|| format!("{}/install", TMP_DIR.as_str()));
 
 /// Configurations needed by fuzzer directory
-pub static CONFIG_DIR: LazyLock<String> = LazyLock::new(|| format!("{}/config", TMP_DIR.as_str()));
+pub static CONFIG_DIR: Lazy<String> = Lazy::new(|| format!("{}/config", TMP_DIR.as_str()));
 
 /// Test files directory
-pub static TEST_DIR: LazyLock<String> = LazyLock::new(|| format!("{}/test", TMP_DIR.as_str()));
+pub static TEST_DIR: Lazy<String> = Lazy::new(|| format!("{}/test", TMP_DIR.as_str()));
 
 /// Monitor status output directory
-pub static OUTPUT_DIR: LazyLock<String> = LazyLock::new(|| format!("{}/output", TMP_DIR.as_str()));
+pub static OUTPUT_DIR: Lazy<String> = Lazy::new(|| format!("{}/output", TMP_DIR.as_str()));
 
 /// Squirrel running envs for per database
-pub static SQUIRREL_ENVS_TABLE: LazyLock<HashMap<&'static str, HashMap<&'static str, String>>> =
-    LazyLock::new(|| {
+pub static SQUIRREL_ENVS_TABLE: Lazy<HashMap<&'static str, HashMap<&'static str, String>>> =
+    Lazy::new(|| {
         let envs = vec![
             (
                 "postgresql",

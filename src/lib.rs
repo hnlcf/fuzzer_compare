@@ -1,5 +1,3 @@
-#![feature(lazy_cell)]
-
 pub mod constants;
 pub mod utils;
 
