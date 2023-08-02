@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     } else if args.run {
         launch();
     } else {
-        println!("Uknown arguments");
+        println!("Unknown arguments");
     }
 
     Ok(())
