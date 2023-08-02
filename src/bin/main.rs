@@ -1,34 +1,4 @@
-use fuzzer_compare::{
-    builder::{BoostBuilder, Builder, MariadbBuilder, MysqlBuilder, PgsqlBuilder, SquirrelBuilder},
-    constants::{CONFIG_DIR, DB_DIR, FUZZERS_DIR, INSTALL_DIR, OUTPUT_DIR, TEST_DIR, TMP_DIR},
-    utils,
-};
-
 use clap::Parser;
-
-fn pre_setup() -> Result<(), Box<dyn std::error::Error>> {
-    utils::create_dir(TMP_DIR.as_str())?;
-    utils::create_dir(DB_DIR.as_str())?;
-    utils::create_dir(FUZZERS_DIR.as_str())?;
-    utils::create_dir(INSTALL_DIR.as_str())?;
-    utils::create_dir(CONFIG_DIR.as_str())?;
-    utils::create_new_dir(TEST_DIR.as_str())?;
-    utils::create_new_dir(OUTPUT_DIR.as_str())?;
-
-    Ok(())
-}
-
-fn setup() -> Result<(), Box<dyn std::error::Error>> {
-    pre_setup()?;
-
-    SquirrelBuilder::setup()?;
-    PgsqlBuilder::setup()?;
-    BoostBuilder::setup()?;
-    MysqlBuilder::setup()?;
-    MariadbBuilder::setup()?;
-
-    Ok(())
-}
 
 /// A Cli for comparing fuzzers.
 #[derive(Parser)]
@@ -46,12 +16,21 @@ struct Args {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
     if args.setup {
-        setup()?;
+        fuzzer_compare::setup()?;
     } else if args.run {
-        println!("Running");
+        launch();
     } else {
         println!("Uknown arguments");
     }
 
     Ok(())
+}
+
+fn launch() {
+    fuzzer_compare::launch_monitors();
+
+    let handles = fuzzer_compare::launch_fuzzers();
+    for i in handles {
+        i.join().unwrap();
+    }
 }

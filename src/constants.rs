@@ -119,7 +119,7 @@ pub static SQUIRREL_ENVS_TABLE: Lazy<HashMap<&'static str, HashMap<&'static str,
                         format!("{}/squirrel-my/test", TEST_DIR.as_str()),
                     ),
                     (
-                        "PGSQL_INSTALL_PATH",
+                        "MYSQL_INSTALL_PATH",
                         format!("{}/mysql", INSTALL_DIR.as_str()),
                     ),
                     (
@@ -159,7 +159,7 @@ pub static SQUIRREL_ENVS_TABLE: Lazy<HashMap<&'static str, HashMap<&'static str,
                         format!("{}/squirrel-ma/test", TEST_DIR.as_str()),
                     ),
                     (
-                        "PGSQL_INSTALL_PATH",
+                        "MARIADB_INSTALL_PATH",
                         format!("{}/mariadb", INSTALL_DIR.as_str()),
                     ),
                     (
